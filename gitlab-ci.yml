@@ -1,0 +1,32 @@
+stages:
+  - provision
+  - stop
+  - cleanup
+
+image: python:3.11-slim
+
+before_script:
+  - echo "Setting up AWS environment..."
+  - pip install boto3
+
+deploy_workload:
+  stage: provision
+  script:
+    - echo "Deploying Workload Node ..."
+    - python provision_workload.py
+  when: manual 
+
+nightly_shutdown_schedule:
+  stage: stop
+  script:
+    - echo "Running scheduled off-hour shutdown sweep..."
+    - python stop_workloads.py
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+
+terminate_environment:
+  stage: cleanup
+  script:
+    - echo "Tearing down ephemeral infrastructure..."
+    - terminate_workloads.py # (Assuming this is what you named your new script!)
+  when: manual
