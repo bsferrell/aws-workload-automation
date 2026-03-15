@@ -19,7 +19,8 @@ This project demonstrates the ability to execute end-to-end cloud administration
 ## Pipeline Architecture (The "Tivoli/IWS" Alternative)
 This repository replaces traditional manual scheduling with a 3-stage GitLab CI/CD pipeline:
 
-1. **`provision` (Manual Trigged Cron):** Executes `stop_workloads.py` nightly. It queries the AWS API for any instances tagged `Environment: Production` and shuts them down to eliminate off-hour compute waste.
+1. **`provision` (Manual Trigged Cron):** to deploy a compliant EC2 instance into a designated VPC subnet.
+2. **`stop` Executes `stop_workloads.py` nightly. It queries the AWS API for any instances tagged `Environment: Production` and shuts them down to eliminate off-hour compute waste.
 3. **`cleanup` (Manual Trigger):** Executes `terminate_workload.py` to destroy ephemeral environments, ensuring zero orphaned resources and a minimized attack surface.
 
 ## How to Run Locally
