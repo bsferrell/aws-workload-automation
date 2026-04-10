@@ -2,7 +2,7 @@ import boto3
 import os
 import argparse
 
-def provision_compliant_ec2():
+def provision_compliant_ec2(subnet_id): 
     print("Initiating strict-compliance EC2 provisioning sequence...")
 
     # Boto3 automatically looks for the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY 
