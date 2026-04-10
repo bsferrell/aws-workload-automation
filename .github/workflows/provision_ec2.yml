@@ -1,0 +1,32 @@
+name: Provision EC2 Workload Node
+
+on:
+  workflow_dispatch:
+    inputs:
+      subnet_id:
+        description: 'The SubnetId to launch the instance in'
+        required: true
+        type: string
+
+jobs:
+  provision:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install boto3
+
+      - name: Provision EC2 Instance
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          python Scripts/provision_workload_node.py --subnet-id "${{ github.event.inputs.subnet_id }}"
