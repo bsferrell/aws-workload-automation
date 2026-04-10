@@ -1,5 +1,6 @@
 import boto3
 import os
+import argparse
 
 def provision_compliant_ec2():
     print("Initiating strict-compliance EC2 provisioning sequence...")
@@ -16,7 +17,7 @@ def provision_compliant_ec2():
         response = ec2_client.run_instances(
             ImageId=AMI_ID,
             InstanceType='t2.micro',
-            SubnetId='subnet-05701ad464c56924c',  
+            SubnetId=subnet_id,  
             MinCount=1,
             MaxCount=1,
             TagSpecifications=[
@@ -42,4 +43,7 @@ def provision_compliant_ec2():
         print(f"Provisioning Failed: {e}")
 
 if __name__ == "__main__":
-    provision_compliant_ec2()
+    parser = argparse.ArgumentParser(description='Provision a compliant EC2 instance.')
+    parser.add_argument('--subnet-id', required=True, help='The SubnetId to launch the instance in')
+    args = parser.parse_args()
+    provision_compliant_ec2(args.subnet_id)
