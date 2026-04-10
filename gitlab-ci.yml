@@ -13,8 +13,13 @@ deploy_workload:
   stage: provision
   script:
     - echo "Deploying Workload Node ..."
-    - python provision_workload.py
-  when: manual 
+    - |
+      if [ -z "$SUBNET_ID" ]; then
+        echo "ERROR: SUBNET_ID variable is required but was not provided."
+        exit 1
+      fi
+    - python Scripts/provision_workload_node.py --subnet-id "$SUBNET_ID"
+  when: manual
 
 nightly_shutdown_schedule:
   stage: stop
