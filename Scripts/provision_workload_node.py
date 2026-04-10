@@ -2,6 +2,10 @@ import boto3
 import os
 import argparse
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}        
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+
 def provision_compliant_ec2(subnet_id): 
     print("Initiating strict-compliance EC2 provisioning sequence...")
 
