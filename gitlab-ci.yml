@@ -5,6 +5,10 @@ stages:
 
 image: python:3.11-slim
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}         
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+
 before_script:
   - echo "Setting up AWS environment..."
   - pip install boto3
